@@ -48,22 +48,60 @@
 // server.listen(8080);
 
 // ============== Create the API through the HTTP create server ================
-const http = require('http')
-const data = require('./lib.js')
+// const http = require('http')
+// const data = require('./lib.js')
 
-const server = http.createServer((req, res)=>{
-      res.setHeader('Content-Text', 'application/json')
-      res.end(JSON.stringify(data))
-})
+// const server = http.createServer((req, res)=>{
+//       res.setHeader('Content-Text', 'application/json')
+//       res.end(JSON.stringify(data))
+// })
 
-server.listen(8080)
+// server.listen(8080)
 
 // ================= Display the file form folder =================
 
-const fs = require('fs')
-const path = require('path');
-const dirPath = path.join(__dirname, 'files')
+// const fs = require('fs')
+// const path = require('path');
+// const { error } = require('console')
+// const dirPath = path.join(__dirname, 'files')
 
-for(i=0 ; i<5 ; i++){
-    fs.writeFileSync(dirPath + '/hello' + i + '.txt', 'this is a simple test file')
-}
+// for(i=0 ; i<5 ; i++)
+// {
+//     fs.writeFileSync(dirPath + '/hello' + i + '.txt', 'this is a simple test file')
+// }
+
+// fs.readdir(dirPath, (err, files)=>{
+//     files.forEach((items)=>{
+//         console.log(items)
+//     })
+// })
+
+// ============= C R U D with file system ==============
+
+// C- Create
+// R- Read 
+// U- Update
+// D- Delete
+
+const fs = require('fs')
+const path = require('path')
+const dirPath = path.join(__dirname, 'crud')
+const filePath = dirPath + '/crud.txt'
+
+// Create the file
+fs.writeFileSync(filePath, 'this is a simple crud file')
+
+// Read the file
+fs.readFile(filePath, 'utf-8',(err,item)=>{
+    console.log(item)
+})
+
+// Update the file
+fs.appendFile(filePath, 'this is a updated file', (err)=>{
+    if(!err){
+        console.log('file is updated')
+    }
+})
+
+// delete the file
+fs.unlinkSync(filePath)
