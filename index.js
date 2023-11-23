@@ -92,16 +92,48 @@ const filePath = dirPath + '/crud.txt'
 fs.writeFileSync(filePath, 'this is a simple crud file')
 
 // Read the file
-fs.readFile(filePath, 'utf-8',(err,item)=>{
+fs.readFile(filePath, 'utf-8', (err, item) => {
     console.log(item)
 })
 
 // Update the file
-fs.appendFile(filePath, 'this is a updated file', (err)=>{
-    if(!err){
+fs.appendFile(filePath, 'this is a updated file', (err) => {
+    if (!err) {
         console.log('file is updated')
     }
 })
 
 // delete the file
 fs.unlinkSync(filePath)
+
+// ================Handle Asynorous data in node js =================
+
+let a = 10;
+let b = 0;
+
+const waitDataUpdate = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve(60)
+    }, 2000);
+})
+
+waitDataUpdate.then((data) => {
+    console.log(a + data)
+})
+
+// ================= Express =============
+
+const express = require('express')
+const app = express()
+
+app.get('/', (req, res)=>{
+    res.send('This is a Home Page')
+})
+app.get('/about',(req, res)=>{
+    res.send('this is a about page')
+})
+app.get('/service',(req,res)=>{
+    res.send('this is a service page')
+})
+
+app.listen(8080);
