@@ -83,57 +83,88 @@
 // U- Update
 // D- Delete
 
-const fs = require('fs')
-const path = require('path')
-const dirPath = path.join(__dirname, 'crud')
-const filePath = dirPath + '/crud.txt'
+// const fs = require('fs')
+// const path = require('path')
+// const dirPath = path.join(__dirname, 'crud')
+// const filePath = dirPath + '/crud.txt'
 
 // Create the file
-fs.writeFileSync(filePath, 'this is a simple crud file')
+// fs.writeFileSync(filePath, 'this is a simple crud file')
 
-// Read the file
-fs.readFile(filePath, 'utf-8', (err, item) => {
-    console.log(item)
-})
+// // Read the file
+// fs.readFile(filePath, 'utf-8', (err, item) => {
+//     console.log(item)
+// })
 
-// Update the file
-fs.appendFile(filePath, 'this is a updated file', (err) => {
-    if (!err) {
-        console.log('file is updated')
-    }
-})
+// // Update the file
+// fs.appendFile(filePath, 'this is a updated file', (err) => {
+//     if (!err) {
+//         console.log('file is updated')
+//     }
+// })
 
-// delete the file
-fs.unlinkSync(filePath)
+// // delete the file
+// fs.unlinkSync(filePath)
+
 
 // ================Handle Asynorous data in node js =================
 
-let a = 10;
-let b = 0;
+// let a = 10;
+// let b = 0;
 
-const waitDataUpdate = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve(60)
-    }, 2000);
-})
+// const waitDataUpdate = new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//         resolve(60)
+//     }, 2000);
+// })
 
-waitDataUpdate.then((data) => {
-    console.log(a + data)
-})
+// waitDataUpdate.then((data) => {
+//     console.log(a + data)
+// })
 
 // ================= Express =============
 
+// const express = require('express')
+// const app = express()
+
+// app.get('/', (req, res)=>{
+//     res.send('This is a Home Page')
+// })
+// app.get('/about',(req, res)=>{
+//     res.send('this is a about page')
+// })
+// app.get('/service',(req,res)=>{
+//     res.send('this is a service page')
+// })
+
+// app.listen(8080);
+
+
+// ============  Make HTML page ============ 
+
 const express = require('express')
+const path = require('path')
+
 const app = express()
 
-app.get('/', (req, res)=>{
-    res.send('This is a Home Page')
-})
-app.get('/about',(req, res)=>{
-    res.send('this is a about page')
-})
-app.get('/service',(req,res)=>{
-    res.send('this is a service page')
+const publicPath = path.join(__dirname, 'public')
+
+// app.use(express.static(publicPath))
+
+app.get('/',(req, res)=>{
+res.sendFile(`${publicPath}/index.html`)
 })
 
-app.listen(8080);
+app.get('/about',(req,res)=>{
+    res.sendFile(`${publicPath}/about.html`)
+})
+
+app.get('/help',(req, res)=>{
+    res.sendFile(`${publicPath}/help.html`)
+})
+
+app.get('*', (req, res)=>{
+    res.sendFile(`${publicPath}/error.html`)
+})
+
+app.listen(5000)
