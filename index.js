@@ -140,31 +140,81 @@
 // app.listen(8080);
 
 
-// ============  Make HTML page ============ 
+// ============  Make HTML page and through the path and Template Engine EJS ============ 
 
-const express = require('express')
-const path = require('path')
+// const express = require('express')
+// const path = require('path')
 
-const app = express()
+// const app = express()
 
-const publicPath = path.join(__dirname, 'public')
+// const publicPath = path.join(__dirname, 'public')
 
 // app.use(express.static(publicPath))
 
-app.get('/',(req, res)=>{
-res.sendFile(`${publicPath}/index.html`)
+// app.set('view engine', 'ejs')
+
+// app.get('/',(req, res)=>{
+// res.sendFile(`${publicPath}/index.html`)
+// })
+
+// // how to render the EJS engine file 
+// app.get('/profile', (req, res)=>{
+//     const userInfo = {
+//         name : 'Deepanshu',
+//         email : "deep@123",
+//         age : 27
+//     }
+//     res.render('profile', {userInfo})
+// })
+
+// app.get('/login', (req, res)=>{
+//     res.render('login')
+// })
+
+// app.get('/about',(req,res)=>{
+//     res.sendFile(`${publicPath}/about.html`)
+// })
+
+// app.get('/help',(req, res)=>{
+//     res.sendFile(`${publicPath}/help.html`)
+// })
+
+// app.get('*', (req, res)=>{
+//     res.sendFile(`${publicPath}/error.html`)
+// })
+
+// app.listen(5000)
+
+// ================ Express js Middleware ================= 
+
+const express = require('express');
+
+const app = express();
+
+const route = express.Router()
+
+const requireFilter = require('./middleware')
+
+// app.use(requireFilter)
+
+route.use(requireFilter)
+
+app.get('/user', (req, res)=>{
+    res.send("this is a user page")
 })
 
-app.get('/about',(req,res)=>{
-    res.sendFile(`${publicPath}/about.html`)
+app.get('/', (req, res)=>{
+    res.send("This is a Home Page")
 })
 
-app.get('/help',(req, res)=>{
-    res.sendFile(`${publicPath}/help.html`)
+route.get('/about',(req, res)=>{
+    res.send('This is a About Page')
 })
 
-app.get('*', (req, res)=>{
-    res.sendFile(`${publicPath}/error.html`)
-})
+app.use('/', route)
 
 app.listen(5000)
+
+
+// ========== MongoDB ===============
+

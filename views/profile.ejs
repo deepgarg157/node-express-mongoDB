@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profile Ejs</title>
+</head>
+<body>
+    <%- include('common/header') %>
+    <h1>This is a Profile Page on EJS</h1>
+    <p>Welcome <%= userInfo.name %></p>
+    <p>User Email : <%= userInfo.email %></p>
+    <p>User age : <%= userInfo.age %></p>
+</body>
+</html>
