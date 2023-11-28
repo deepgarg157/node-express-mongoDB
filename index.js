@@ -216,20 +216,13 @@ app.use('/', route)
 app.listen(5000)
 
 
-// ========== MongoDB ===============
+// ========== MongoDB and connect with node JS===============
 
-const {MongoClient} = require('mongodb')
+const getData = require('./mongodb')
 
-const url = 'mongodb://localhost:27017'
-const database = 'e-comm'
-const client = new MongoClient(url)
-
-async function getData (){
-    const result = await client.connect()
-    const db = result.db(database)
-    const collection = db.collection('products')
-    const response = await collection.find({}).toArray()
+const main = async ()=>{
+    const data = await getData();
+    const response = await data.find({name:'m 20'}).toArray()
     console.log(response)
 }
-
-getData()
+main()
