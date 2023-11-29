@@ -216,7 +216,7 @@ app.use('/', route)
 app.listen(5000)
 
 
-// ========== MongoDB and connect with node JS===============
+// ========== MongoDB and connect with node JS & CRUD in mongoDB ===============
 
 const getData = require('./mongodb')
 
@@ -225,4 +225,5 @@ const main = async ()=>{
     const response = await data.find({name:'m 20'}).toArray()
     console.log(response)
 }
+
 main()
