@@ -187,43 +187,47 @@
 
 // ================ Express js Middleware ================= 
 
-const express = require('express');
+// const express = require('express');
 
-const app = express();
+// const app = express();
 
-const route = express.Router()
+// const route = express.Router()
 
-const requireFilter = require('./middleware')
+// const requireFilter = require('./middleware')
 
-// app.use(requireFilter)
+// // app.use(requireFilter)
 
-route.use(requireFilter)
+// route.use(requireFilter)
 
-app.get('/user', (req, res)=>{
-    res.send("this is a user page")
-})
+// app.get('/user', (req, res)=>{
+//     res.send("this is a user page")
+// })
 
-app.get('/', (req, res)=>{
-    res.send("This is a Home Page")
-})
+// app.get('/', (req, res)=>{
+//     res.send("This is a Home Page")
+// })
 
-route.get('/about',(req, res)=>{
-    res.send('This is a About Page')
-})
+// route.get('/about',(req, res)=>{
+//     res.send('This is a About Page')
+// })
 
-app.use('/', route)
+// app.use('/', route)
 
-app.listen(5000)
+// app.listen(5000)
 
 
 // ========== MongoDB and connect with node JS & CRUD in mongoDB ===============
 
-const getData = require('./mongodb')
+// const getData = require('./mongodb')
 
-const main = async ()=>{
-    const data = await getData();
-    const response = await data.find({name:'m 20'}).toArray()
-    console.log(response)
-}
+// const main = async ()=>{
+//     const data = await getData();
+//     const response = await data.find({name:'m 20'}).toArray()
+//     console.log(response)
+// }
 
-main()
+// main()
+
+
+// ========== Basic GET API with MongoDB ========
+
