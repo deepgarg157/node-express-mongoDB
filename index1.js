@@ -1,5 +1,9 @@
 const express = require('express')
+
+const bodyParser = require('body-parser')
 const app = express()
+
+app.use(bodyParser.urlencoded({extended : false}))
 
 app.get('/', (req, res)=>{
     res.send("This is a Home Page")
@@ -17,8 +21,13 @@ app.get('/about', (req, res)=>{
     res.sendFile(__dirname + '/about.html')
 })
 
-app.get('/resgister', (req, res)=>{
+app.get('/register', (req, res)=>{
     res.sendFile(__dirname + '/register.html')
+})
+
+app.get('/api/register', (req, res)=>{
+    const {firstName, lastName} = req.body
+    res.send(firstName + ' ' + lastName)
 })
 
 app.listen(3000, ()=>{
