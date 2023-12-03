@@ -1,9 +1,9 @@
 const express = require('express')
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
 const app = express()
 
-// app.use(bodyParser.urlencoded({extended : false}))
+app.use(bodyParser.urlencoded({extended : false}))
 
 app.get('/', (req, res)=>{
     res.send("This is a Home Page")
@@ -26,8 +26,8 @@ app.get('/register', (req, res)=>{
 })
 
 app.post('/api/register', (req, res)=>{
-    const {firstName, lastName} = req.body
-    res.send(firstName + ' ' + lastName)
+    const {firstname, lastname} = req.query
+    res.send(firstname + ' ' + lastname)
 })
 
 app.listen(3000, ()=>{
