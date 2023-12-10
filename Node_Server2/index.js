@@ -37,7 +37,7 @@ app.get('/users', async (req, res) => {
     }
     catch (error) {
         res.json({
-            status: 'False',
+            status: 'Fail',
             message: error.message
         })
     }
@@ -57,7 +57,7 @@ app.post('/users', async (req, res) => {
     }
     catch (error) {
         res.json({
-            status: 'False',
+            status: 'Fail',
             message: error.message
         })
     }
