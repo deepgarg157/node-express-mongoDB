@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from "react";
-
-const userData = {
-  id: 1,
-  firstName: 'Deepanshu',
-  lastName: 'Garg',
-  age: 27,
-  email: 'deepgarg123@gmail.com'
-}
+import axios from 'axios'
 
 function App() {
 
-  const [user, setUser] = useState([])
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
-    fetchData()
+    fetchUsers()
   }, [])
 
-  const fetchData = async () => {
-    const data = await fetch('http://localhost:3000/users')
-    const result = await data.json()
-    setUser(result)
+  // New user data should be fetched from a form
+  const dummyUser = {
+    first_name: 'Lakshman',
+    last_name: 'Pandey',
+    email: 'lakshman@gmail.com',
+    avatar: 'https://reqres.in/img/faces/4-image.jpg'
   }
 
-  const userData = user.message
-  console.log(userData)
+  const fetchUsers = () => {
+    axios.get('http://localhost:3000/users')
+      .then((response) => setUsers(response.data.message))
+      .catch((error) => console.log(error))
+  }
 
-  return  user.length === 0 ? "Loading" : (
-    <div className="App" style={{ border: '2px solid black', width: '200px', textAlign: 'center' }}>
-      {userData.map((userInfo)=> <p key={userInfo.id}>{userInfo.firstName + " " + userInfo.lastName}</p>)}
-    </div>
+  return users.length === 0 ? "Loading..........." : (
+    <>
+      <div className="App" style={{ border: '2px solid black', width: '200px', textAlign: 'center' }}>
+        {users.map((userInfo) => <p key={userInfo.id}>{userInfo.firstName + " " + userInfo.lastName}</p>)}
+      </div>
+      <div>
+        <button style={{ margin: '5px', cursor: 'pointer' }}>Add more data</button>
+      </div>
+    </>
   );
 }
 
