@@ -25,10 +25,9 @@ function App() {
   const userData = user.message
   console.log(userData)
 
-  return (
+  return  user.length === 0 ? "Loading" : (
     <div className="App" style={{ border: '2px solid black', width: '200px', textAlign: 'center' }}>
-      {/* {user.map((userInfo)=> <p key={userInfo.id}>{userInfo.firstName}</p>)} */}
-      {/* <p>{userData.firstName}</p> */}
+      {userData.map((userInfo)=> <p key={userInfo.id}>{userInfo.firstName + " " + userInfo.lastName}</p>)}
     </div>
   );
 }

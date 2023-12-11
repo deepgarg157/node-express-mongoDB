@@ -29,10 +29,47 @@ app.get('/users', async (req, res) => {
             message: users
         })
     }
-    catch(error){
+    catch (error) {
         res.json({
-            status:'fail',
-            message:'something went wrong'
+            status: 'fail',
+            message: 'something went wrong'
+        })
+    }
+})
+
+app.post('/users', async (req, res) => {
+    try {
+        const { firstName, lastName, phone } = req.body
+        await userData.create({
+            firstName,
+            lastName,
+            phone
+        })
+        res.json({
+            status: 'success',
+            message: 'create data successful'
+        })
+    }
+    catch (error) {
+        res.json({
+            status: 'fail',
+            message: 'something went wrong'
+        })
+    }
+})
+
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+        await userData.findByIdAndDelete(id)
+        res.json({
+            status:'Success',
+            message:'user Deleted sucessfully'
+        })
+    } catch (error) {
+        res.json({
+            status: 'Fail',
+            message: error.message
         })
     }
 })
