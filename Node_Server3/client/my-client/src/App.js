@@ -23,7 +23,7 @@ function App() {
       .catch((error) => console.log(error))
   }
 
-  return users.length === 0 ? "Loading..........." : (
+  return users.length === 0 ? "Loading............." : (
     <>
       <div className="App" style={{ border: '2px solid black', width: '200px', textAlign: 'center' }}>
         {users.map((userInfo) => <p key={userInfo.id}>{userInfo.firstName + " " + userInfo.lastName}</p>)}
