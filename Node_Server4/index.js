@@ -13,12 +13,43 @@ app.use(bodyParser.json())
 
 app.set('view engine', 'ejs')
 
+// Schema in mongoose
 const Users = mongoose.model('user', {
     firstName: String,
     lastName: String,
     phone: Number
 })
 
+// MiddleWare
+// Authentication (user identity is check)
+const isLoggedIn = (req, res, next) => {
+    const loggedIn = true
+    if (loggedIn) {
+        next()
+    }
+    else {
+        res.json({
+            status: 'Fail',
+            message: 'User first to log in...'
+        })
+    }
+}
+
+//Authorization (what is user have type of)
+const isPremium = (req, res, next) => {
+    const premium = true
+    if (premium) {
+        next()
+    }
+    else {
+        res.json({
+            status: 'Fail',
+            message: 'User have to take the premium'
+        })
+    }
+}
+
+// Public Route
 app.get('/', (req, res) => {
     res.json({
         status: 'success',
@@ -26,7 +57,8 @@ app.get('/', (req, res) => {
     })
 })
 
-app.get('/users', async (req, res) => {
+// Private route
+app.get('/users', isLoggedIn, isPremium, async (req, res) => {
     try {
         const users = await Users.find()
         res.json({
