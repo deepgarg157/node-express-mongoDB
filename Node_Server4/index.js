@@ -3,7 +3,8 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const ejs = require('ejs')
 const dotenv = require('dotenv')
-
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 dotenv.config()
 
 const app = express()
@@ -15,22 +16,24 @@ app.set('view engine', 'ejs')
 
 // Schema in mongoose
 const Users = mongoose.model('user', {
-    firstName: String,
-    lastName: String,
-    phone: Number
+    fullName: String,
+    email: String,
+    password: String,
+    isPremium: Boolean,
 })
 
 // MiddleWare
 // Authentication (user identity is check)
 const isLoggedIn = (req, res, next) => {
-    const loggedIn = true
-    if (loggedIn) {
+    try {
+        const { jwttoken } = req.headers
+        const user = jwt.verify(jwttoken, 'highlyCridentialSecurtyToken')
         next()
     }
-    else {
+    catch (error) {
         res.json({
             status: 'Fail',
-            message: 'User first to log in...'
+            message: error.message
         })
     }
 }
@@ -57,8 +60,16 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/dashboard', isLoggedIn, (req, res) => {
+    res.send("This is a Dashboard Page")
+})
+
+app.get('/isPremium', isLoggedIn, isPremium, (req, res) => {
+    res.send("This is a Premium Page")
+})
+
 // Private route
-app.get('/users', isLoggedIn, isPremium, async (req, res) => {
+app.get('/users', async (req, res) => {
     try {
         const users = await Users.find()
         res.json({
@@ -72,7 +83,62 @@ app.get('/users', isLoggedIn, isPremium, async (req, res) => {
             message: error.message
         })
     }
+})
 
+app.post('/signup', async (req, res) => {
+    try {
+        const { fullName, email, password, isPremium } = req.body
+        const bcryptPassword = await bcrypt.hash(password, 10)
+        await Users.create({ fullName, email, password: bcryptPassword, isPremium })
+        res.json({
+            status: 'success',
+            message: bcryptPassword
+        })
+    }
+    catch (error) {
+        res.json({
+            status: 'fail',
+            message: error.message
+        })
+    }
+})
+
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const user = await Users.findOne({ email })
+        if (user) {
+            const isPasswordMatched = await bcrypt.compare(password, user.password)
+            if (isPasswordMatched) {
+                const jwtToken = jwt.sign(user.toJSON(), 'highlyCridentialSecurtyToken', { expiresIn: 15 })
+                res.json({
+                    status: 'success',
+                    message: 'successfully the user login',
+                    jwtToken
+                })
+            }
+            else {
+                res.json({
+                    status: 'Fail',
+                    message: 'something is wrong pls try the login again'
+                })
+            }
+
+        }
+        else {
+            res.json({
+                status: 'Fail',
+                message: 'user dont exist'
+            })
+        }
+
+    }
+    catch (error) {
+        res.json({
+            status: 'Fail',
+            message: 'something is wrong pls try the login again'
+        })
+    }
 })
 
 app.listen(process.env.Port, () => {
