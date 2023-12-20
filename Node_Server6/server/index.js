@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const ejs = require('ejs')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const cors = require('cors')
 dotenv.config()
 
 const Users = require('./model/user')
@@ -13,6 +14,7 @@ const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(cors())
 
 app.set('view engine', 'ejs')
 
@@ -42,8 +44,8 @@ app.get('/users', async (req, res) => {
 
 app.post('/register', async (req, res) => {
     try {
-        const { fullName, email, password, isPremium } = req.body
-        await Users.create({ fullName, email, password, isPremium })
+        const { fullName, email, password} = req.body
+        await Users.create({ fullName, email, password })
         res.json({
             status: 'New user register is done'
         })
