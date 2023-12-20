@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import UserCard from './components/UserCard';
+import axios from 'axios';
 
 function App() {
-  return (
+
+  const [userData, setUserData] = useState([])
+
+  useEffect(() => {
+    fetchData()
+  }, [userData])
+
+  const fetchData = async () => {
+    const data = await axios.get('http://localhost:3000/users')
+    setUserData(data.data.data)
+  }
+
+  return userData.length === 0 ? 'Loading the data......' : (
     <div className="App">
-     <h1 className='text-red-500 font-bold'>Hello React</h1>
+      {userData.map((data) => <UserCard key={data._id} userData={data} />)}
     </div>
   );
 }

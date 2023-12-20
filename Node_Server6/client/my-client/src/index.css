@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.user-info{
+    border: 2px solid black;
+    width: 250px;
+    height: 200px;
+    border-radius: 5px;
+    background-color: rgb(184, 240, 221);
+}
+
+.data{
+    padding: 5px;
+}
+
+.App{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.id-card{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
